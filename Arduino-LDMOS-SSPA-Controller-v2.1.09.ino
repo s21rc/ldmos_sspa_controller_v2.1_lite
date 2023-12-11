@@ -1,5 +1,5 @@
 /*                                                                                             */
-/*  Arduino Code (Version 2.1.09) for S21RC LDMOS Controller V1.x. PCB.                        */
+/*  Arduino Code (Version 2.1.10) for S21RC LDMOS Controller V1.x. PCB.                        */
 /*  This board and code has been tested with DXWORLD-E protection board,                       */
 /*  DXWORLD-E LPF Board. Any LDMOS SSPA system with similar IO should work.                    */
 /*                                                                                             */
@@ -11,7 +11,7 @@
 /*                                                                                             */
 /*  If you need any clarification or help please issue a ticket in github.                     */
 /*                                                                                             */
-/* For PCB Version 1.x, Code V2.1.09 Lite version custom built based over CODE V 2.0 for DF1JM */
+/* For PCB Version 1.x, Code V2.1.10 Lite version custom built based over CODE V 2.0 for DF1JM */
 
 /* Simple graphical interface to show the status of the SSPA only,                            */
 /* no software protection except Tempareture.                                                  */
@@ -36,7 +36,13 @@
 // Remove the UART/Display connection when Arduino is connected to computer for programming, as they use same RX/TX port.
 // Remove arduino USB/UART from computer when Display is connected. 
 
-
+/* ======== WHATS NEW ========= */
+/*
+2.1.10 Lite (11 Dec 2023):
+Input pullup added to code for the 3 error input (LED): for OM testing the code without the PCB (PCB has pullup resistors). (reported by F5OTZ)
+2.1.09 Lite:
+Solved the current meter stuck to high current after releasing PTT (Reported by DF1JM).
+*/
 #include <EEPROM.h>
 #include "math.h" 
 #include <OneWire.h>
@@ -1210,9 +1216,9 @@ pinMode(band7, OUTPUT);
 pinMode(BIAS_OFF, OUTPUT);
 
 pinMode(PTT, INPUT_PULLUP);
-pinMode(LED_PO, INPUT);
-pinMode(LED_I, INPUT);
-pinMode(LED_SWR, INPUT);
+pinMode(LED_PO, INPUT_PULLUP);
+pinMode(LED_I, INPUT_PULLUP);
+pinMode(LED_SWR, INPUT_PULLUP);
 pinMode(VCC, INPUT);
 EEPROM.get(100, default_value);
 if(default_value!=2023) default_write(); //write default values first time in new microcontroller.
