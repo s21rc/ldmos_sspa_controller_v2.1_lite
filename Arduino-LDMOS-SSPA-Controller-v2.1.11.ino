@@ -1314,6 +1314,8 @@ void setup()
     pinMode(band6, OUTPUT);
     pinMode(band7, OUTPUT);
     pinMode(BIAS_OFF, OUTPUT);
+    pinMode(antenna2, OUTPUT); // Added in V2.1.11, was missing previously, reported by Laurent.
+    
 
     pinMode(PTT, INPUT_PULLUP);
     pinMode(LED_PO, INPUT_PULLUP);
