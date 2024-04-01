@@ -1,4 +1,4 @@
-LICENSE: The full repository (including subfolders) is licensed under GPL v3
+LICENSE: The full repository (including subfolders) is licensed under GNU GPL v3
 
 Including:
 
