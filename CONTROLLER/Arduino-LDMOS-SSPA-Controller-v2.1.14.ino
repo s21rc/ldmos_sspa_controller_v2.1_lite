@@ -176,8 +176,11 @@ int TdisdelayInMillis = 1000; // refresh Temp display every N mili sec, set as p
 int VdelayInMillis = 2000;    // refresh V display every N mili sec, set as per your liking
 int IdelayInMillis = 200;     // refresh I display every N mili sec, set as per your liking
 
-int PdelayInMillis = 100; // check power/swr every N mili sec.
+int PdelayInMillis = 10; // check power/swr every N mili sec.
 int DiagdelayInMillis = 500;
+
+float decayRate = 0.995; // Value anything below 1.
+
 float Res_1 = 150000.00; // Set R1 of voltage devider (VR VM pot, center to VDD) (you can use 150K resistor)
 float Res_2 = 10000.00;  // Set R2 of voltage devider (VR VM pot, center to GND) (you can use 10K  resistor)
 int RL = 1800;           // Set RL value for R_IS. for 3K3 it should be 3300. Due to the series 1K resistor in DXworld the calculation
@@ -264,6 +267,8 @@ int swr_display = 10;    // swr x 10 showing in display
 Ewma swrFilter(0.001);
 Ewma powerFilter(0.5);
 Ewma I_Filter(0.8);
+
+
 
 /* === PWM Function === */
 
@@ -360,10 +365,12 @@ void read_power()
         power_fwd_max = power_fwd;
     }
 
-    if (millis() > (lastTpep + T_pepHOLD))
+    if (millis() > (lastTpep + T_pepHOLD)) {
         //power_fwd_max = power_fwd; // clear the peak after hold time
-        power_fwd_max *= 0.995; // Gradual/softer decay after hold time
-    power_fwd_max = powerFilter.filter(power_fwd_max);
+        power_fwd_max *= decayRate; // Gradual/softer decay after hold time
+    }
+    
+    power_fwd_max = powerFilter.filter(power_fwd_max); // smoothing the value
 }
 
 /* === SWR/Po display Function === */
